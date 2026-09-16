@@ -110,3 +110,11 @@ Status: contracts defined; no physics or 3D generation yet.
 - Uncertainty semantics: unknown / not_modelled / qualitative / quantified; not_modelled preserved.
 - Source snapshot + optional scenario; source unchanged; deterministic; persistence JSON.
 - No biological forecast; no calibration; no model edits.
+
+## TASK 017 — Plant Architecture
+- PlantArchitecture (architecture_id / plant_id / root_organ_id / coordinate_frame / local_origin / organs / provenance / v1).
+- PlantOrgan (id / plant_id / organ_type vocabulary root/stem/branch/leaf/flower/fruit/seed/axis/internode/bud/other / parent_organ_id / children_ids / local_position / orientation / length_m >=0 / radius_m >=0 / status / provenance).
+- Topology: tree/graph; root no parent; parent resolves; cycles rejected; duplicate IDs rejected; removal requires detach or denies if children.
+- Geometry independent of Three.js; domain-only local/world coordinates; +X East / +Y North / +Z Up.
+- Synthetic fixtures: seedling + branched; no real measurements; no growth/physics.
+- No L-system (TASK 018); no physiology (TASK 019+).

@@ -95,14 +95,35 @@ class PlantState(BaseModel):
 # --- PlantArchitecture (no Three.js) ---
 class PlantOrgan(BaseModel):
     id: str
-    organ_type: Literal["axis","internode","leaf","bud","flower","fruit","root","other"]
+    plant_id: Optional[str] = None
+    organ_type: Literal["root","stem","branch","leaf","flower","fruit","seed","axis","internode","bud","other"] = "other"
+    parent_organ_id: Optional[str] = None  # structural parent; root => None
+    children_ids: List[str] = Field(default_factory=list)
+    local_position: Optional[list[float]] = Field(default=None, description="[x,y,z] plant-local; +X East, +Y North, +Z Up")
+    orientation: Optional[list[float]] = Field(default=None, description="direction vector [dx,dy,dz] normalized")
+    length_m: Optional[float] = Field(default=None, ge=0, description="structural length; must be non-negative")
+    radius_m: Optional[float] = Field(default=None, ge=0, description="approx radius/half-width")
+    status: Optional[str] = None  # structural/state metadata; not biological growth
+    geometry_metadata: Optional[dict] = None
     topology_ref: Optional[str] = None
+    creation_index: Optional[int] = None
+    provenance: Optional[str] = None
+    schema_version: Literal["v1"] = "v1"
+    is_synthetic_example: bool = False
 
 class PlantArchitecture(BaseModel):
+    architecture_id: str
     plant_id: str
-    topology: Optional[str] = None
+    root_organ_id: Optional[str] = None  # root of topology; must exist in organs
+    coordinate_frame: Literal["plant_local","garden_world"] = "plant_local"
+    local_origin: Optional[list[float]] = Field(default=[0.0,0.0,0.0], description="plant-local G0")
     organs: List[PlantOrgan] = Field(default_factory=list)
+    topology: Optional[str] = None  # topology descriptor string; not L-system
     geometry_metadata: Optional[dict] = None
+    provenance: Optional[str] = None
+    schema_version: Literal["v1"] = "v1"
+    is_synthetic_example: bool = False
+    notes: Optional[str] = None
 
 # --- Variety ---
 class VarietyParameter(BaseModel):

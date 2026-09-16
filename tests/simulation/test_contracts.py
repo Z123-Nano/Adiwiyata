@@ -34,7 +34,7 @@ def test_plant_identity_vs_state():
 
 # G. PlantArchitecture no Three.js
 def test_architecture_no_three():
-    arch = PlantArchitecture(plant_id="p1", organs=[PlantOrgan(id="o1", organ_type="leaf")])
+    arch = PlantArchitecture(architecture_id="a1", plant_id="p1", organs=[PlantOrgan(id="o1", organ_type="leaf", schema_version="v1")])
     assert arch.geometry_metadata is None or isinstance(arch.geometry_metadata, dict)
     assert "three" not in str(type(arch)).lower()
 

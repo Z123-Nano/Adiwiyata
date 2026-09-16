@@ -32,6 +32,6 @@ SYN_STATES = [
 ]
 
 SYN_ARCHITECTURES = [
-    PlantArchitecture(plant_id="P001", topology="simple", organs=[PlantOrgan(id="o1", organ_type="axis")]),
-    PlantArchitecture(plant_id="P002", topology="simple", organs=[PlantOrgan(id="o2", organ_type="axis"), PlantOrgan(id="o3", organ_type="leaf")]),
+    PlantArchitecture(architecture_id="A001", plant_id="P001", topology="simple", organs=[PlantOrgan(id="o1", organ_type="axis", schema_version="v1")]),
+    PlantArchitecture(architecture_id="A002", plant_id="P002", topology="simple", organs=[PlantOrgan(id="o2", organ_type="axis", schema_version="v1"), PlantOrgan(id="o3", organ_type="leaf", schema_version="v1")]),
 ]
