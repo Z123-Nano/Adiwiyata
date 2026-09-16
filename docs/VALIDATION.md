@@ -32,3 +32,12 @@ Validation method:
 - Persistence: JSON (Pydantic); no database introduced; DuckDB remains optional for later analytical workload.
 - Validation / calibration / regression / LightField comparison / photosynthesis inference deliberately deferred to TASK 013+.
 - All fixtures synthetic; labeled; no invented survey values.
+
+## TASK 013 — Light Validation (validation only; no calibration)
+- Validation case contract: id, model_ref, measurement_ref, timestamp, spatial_ref, comparison_method, temporal_tolerance_sec, spatial_tolerance_m, result_status (PASS/FAIL/INCONCLUSIVE), metric_notes, provenance, is_synthetic_example.
+- Matching: exact / nearest-within-threshold / nearest-beyond-threshold / unmatched; distance recorded; rejected explicitly; temporal gate (exact + configurable τ) documented.
+- Metrics: structural only (matched/unmatched counts, spatial distance, match rate); rank correlation only on same-unit normalized data; NO RMSE lux-vs-relative_normalized; constant/insufficient arrays → INCONCLUSIVE.
+- Unit distinction preserved: lux (Measurement.unit) vs relative_normalized (LightSample.unit); never directly compared numerically.
+- PASS/FAIL/INCONCLUSIVE: PASS = comparison complete; FAIL = forbidden metric / impossible; INCONCLUSIVE = missing/unmatched/temporal out/unit mismatch/insufficient.
+- Synthetic fixtures A-M labeled is_synthetic_example=True; no real measurements; no LightField edits.
+- No calibration, no regression, no parameter fitting, no lux→PPFD.
