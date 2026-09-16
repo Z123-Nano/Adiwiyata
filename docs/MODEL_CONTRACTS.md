@@ -118,3 +118,11 @@ Status: contracts defined; no physics or 3D generation yet.
 - Geometry independent of Three.js; domain-only local/world coordinates; +X East / +Y North / +Z Up.
 - Synthetic fixtures: seedling + branched; no real measurements; no growth/physics.
 - No L-system (TASK 018); no physiology (TASK 019+).
+
+## TASK 018 — L-System Morphogenesis Prototype
+- LSystemGrammar (axiom / rules / max_iterations / max_symbol_count / turn_angle / segment_length / provenance / v1).
+- Rewrite: simultaneous symbol replacement; iterations >=0; deterministic; limits enforced (no silent truncation).
+- Interpreter: turtle (F extend, +/- rotate around Z axis, [/] stack); produces PlantArchitecture; domain-local +X/E +Y/N +Z/U; no Three.js; no growth/biology.
+- Architecture conversion: valid topology via validation; root/parent/children consistent; synthetic fixtures (straight + branch).
+- Analytical geometry verified independently; no implementation-as-reference.
+- Explicit: structural prototype only; not biological validation; TASK 018 does not establish realism; TASK 019+ needed.
