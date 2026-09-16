@@ -103,3 +103,10 @@ Status: contracts defined; no physics or 3D generation yet.
 - Modification semantics: environment/spatial/intervention/parameter overrides (config, not calibrated biology); provenance preserved.
 - Deterministic equivalence: same source + same modifications => equivalent branch.
 - No simulation run; no clock advance; no biology; no TASK 016.
+
+## TASK 016 — Prediction (infrastructure only)
+- Prediction / PredictionRequest contracts (v1); baseline vs scenario_ref; status lifecycle; target_time timezone-aware.
+- Explicit NOT_COMPUTABLE / INCONCLUSIVE when forecasting model unavailable; no fabricated growth/biomass/yield/photosynthesis.
+- Uncertainty semantics: unknown / not_modelled / qualitative / quantified; not_modelled preserved.
+- Source snapshot + optional scenario; source unchanged; deterministic; persistence JSON.
+- No biological forecast; no calibration; no model edits.
