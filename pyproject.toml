@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "digital-twin-garden"
+version = "0.1.0"
+description = "My Digital Twin Garden — scientific simulation core"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.14",
+    "pydantic>=2.0",
+    "fastapi>=0.115",
+    "uvicorn>=0.34",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["simulation*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
