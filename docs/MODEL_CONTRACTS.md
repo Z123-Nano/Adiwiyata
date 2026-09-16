@@ -96,3 +96,10 @@ Status: contracts defined; no physics or 3D generation yet.
 - Random: explicit seed where available; None = not applicable (not zero).
 - State separation preserved: Snapshot != Scenario != Prediction != Measurement != Observation.
 - Serialization: JSON via Pydantic; deterministic; no DB.
+
+## TASK 015 — Scenario Branching
+- Scenario: hypothetical branch from Snapshot (source_snapshot_ref required); modifications + optional parameter_overrides; not execution; not prediction.
+- Branch isolation: source snapshot unchanged; branched state independent via serialization boundary.
+- Modification semantics: environment/spatial/intervention/parameter overrides (config, not calibrated biology); provenance preserved.
+- Deterministic equivalence: same source + same modifications => equivalent branch.
+- No simulation run; no clock advance; no biology; no TASK 016.
