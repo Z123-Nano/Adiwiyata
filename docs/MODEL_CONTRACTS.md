@@ -87,3 +87,12 @@ Status: contracts defined; no physics or 3D generation yet.
 - Simulation result / LightField / Prediction are model outputs; NOT measurements or observations.
 - Persistence: JSON via Pydantic model_dump/model_validate; no DB dependency; human-readable.
 - No calibration, validation, PPFD conversion, or parameter fitting performed in this milestone.
+
+## TASK 014 — Snapshot / Checkpoint
+- Snapshot: point-in-time simulation state (snapshot_id, simulation_time, world_time, clock_state, scheduler_state, model_version_ref, parameter_set_ref, garden_ref, plant_states_refs, environment_state_ref, provenance, schema_version v1, random_seed optional/None=absent).
+- Checkpoint: persisted Snapshot artifact (is_checkpoint=True); same fields; save/load via JSON.
+- Immutability: deep-boundary via model_dump/model_validate; restore creates new objects; mutation of one does not affect others.
+- Clock/scheduler preserved: SimulationClock (start/current/end/paused) + SimulationScheduler (processes with id/timestep/priority/enabled/next_run); no invented fields.
+- Random: explicit seed where available; None = not applicable (not zero).
+- State separation preserved: Snapshot != Scenario != Prediction != Measurement != Observation.
+- Serialization: JSON via Pydantic; deterministic; no DB.
