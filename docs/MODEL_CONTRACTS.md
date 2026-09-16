@@ -133,3 +133,12 @@ Status: contracts defined; no physics or 3D generation yet.
 - Units declared per field; lux/relative_normalized not converted; no PPFD inference.
 - Temporal/spatial references preserved; provenance/uncertainty preserved.
 - No equations; no growth; no calibration; no TASK 020.
+
+## TASK 021 — Carbon Balance & Respiration
+- RespirationParams / RespirationInput / RespirationResult; maintenance rate per biomass; biomass required or NOT_COMPUTABLE.
+- CarbonBalanceInput / CarbonBalanceResult; gross_assimilation_rate, respiratory_loss_rate, net_carbon_rate, timestep_seconds, integrated net.
+- Equation: net_rate = gross - respiration; integrated = net * timestep; no hidden scaling.
+- Negative net allowed; not clamped; not interpreted as death/growth.
+- Units: μmol CO2 m^-2 s^-1 (rate), umol_CO2_m2 (amount); consistent with TASK 020.
+- Synthetic fixtures; provenance preserved; no inventory/growth/biomass invention.
+- Explicit distinction: net carbon is bookkeeping before allocation/growth; not growth itself.
