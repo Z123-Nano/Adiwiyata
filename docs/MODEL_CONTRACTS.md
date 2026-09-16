@@ -126,3 +126,10 @@ Status: contracts defined; no physics or 3D generation yet.
 - Architecture conversion: valid topology via validation; root/parent/children consistent; synthetic fixtures (straight + branch).
 - Analytical geometry verified independently; no implementation-as-reference.
 - Explicit: structural prototype only; not biological validation; TASK 018 does not establish realism; TASK 019+ needed.
+
+## TASK 019 — Plant Physiology Contracts (infrastructure only)
+- PlantPhysiologyState / PhotosynthesisResult / RespirationResult / CarbonBalanceResult / LightInput / EnvironmentInput / PlantPhysiolInput (v1).
+- Explicit placeholders (None = unavailable); no zero-filling; status NOT_IMPLEMENTED / NOT_COMPUTABLE preserved.
+- Units declared per field; lux/relative_normalized not converted; no PPFD inference.
+- Temporal/spatial references preserved; provenance/uncertainty preserved.
+- No equations; no growth; no calibration; no TASK 020.
