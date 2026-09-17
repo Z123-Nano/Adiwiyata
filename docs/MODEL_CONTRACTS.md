@@ -185,3 +185,12 @@ Status: contracts defined; no physics or 3D generation yet.
 - Root reference preserved; no automatic root creation; NOT_IMPLEMENTED if missing.
 - Conservation verified (1e-9); synthetic fixtures A-C labeled.
 - Explicit: 'TASK 025 implements simplified root-zone water reservoir and root uptake model. Not full soil-hydraulic or plant-hydraulic model.'
+
+## TASK 026 — Nutrient (N/P/K; mg; synthetic)
+- Vocabulary: N, P, K (extensible Literal); independent pools; no interactions/antagonism/synergy.
+- Units: mg (mass); availability fraction = total * fraction (synthetic; 0.5/0.25); no soil chemistry invented.
+- Pool: total >= available; balance = initial + input - uptake - loss; final_available recomputed with fraction.
+- Uptake = min(requested, available, capacity); status synthetic thresholds.
+- Root reference preserved; NO automatic root creation; invalid -> INVALID_INPUT; missing -> allowed (calculation proceeds) with note.
+- No pH chemistry; no water coupling; no photosynthesis/growth mutation; no nutrient-interaction calculation.
+- Explicit: 'TASK 026 implements simplified independent N/P/K nutrient-pool and root-uptake model. Not full soil-chemistry, mineralization, transport, or plant-nutrition diagnostic model.'

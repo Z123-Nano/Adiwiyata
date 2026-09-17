@@ -64,3 +64,7 @@ Validation method:
 - Analytical: case A 2+5-3=4; case B 4+4-5 overflow 3; case C requested 5/avail 2 => actual 2 unmet 3.
 - No soil-specific calibration or field validation performed.
 - Source snapshot isolation verified.
+
+## TASK 026 — Nutrient validation
+- Analytical N: 100 mg * 0.5 = 50 avail; input 20; uptake 25 => final 95; avail 47.5. P: 20 * 0.25 = 5 avail; req 10 => actual 5.
+- No calibration/field validation; fixtures synthetic; no interaction model.
