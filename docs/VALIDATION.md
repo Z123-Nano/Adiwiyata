@@ -73,3 +73,9 @@ Validation method:
 - Reproducibility verified (same seed => identical sample).
 - Bounds enforced (uniform/truncated).
 - No biological calibration or ensemble forecasting performed.
+
+## TASK 028 — Calibration validation
+- Synthetic recovery verified (true alpha=0.05, fitted ~0.05, obj~0).
+- Bounded domain respected; convergence/identifiability explicitly reported.
+- Original parameter preserved; calibration creates derived set only.
+- No real garden observations used; synthetic only; no biological validation claimed.

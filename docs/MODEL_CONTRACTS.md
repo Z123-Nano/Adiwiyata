@@ -203,3 +203,12 @@ Status: contracts defined; no physics or 3D generation yet.
 - Synthetic fixtures (uniform [0.9,1.1], truncated_normal mean=1 sd=0.05); not empirical biological distributions
 - No injection into growth/photosynthesis/nutrient/water/phenology; no calibration/ensemble/Monte Carlo
 - Explicit: 'TASK 027 provides controlled stochastic variation infrastructure. Not empirical distributions of biological variability. Does not inject randomness into biological process models.'
+
+## TASK 028 — Calibration (parameter estimation; synthetic scalar)
+- Contracts: CalibrationRequest / CalibrationResult / CalibrationDataset / ParameterSetVersion / FittedParameter (v1)
+- Target: synthetic scalar alpha (true=0.05) using deterministic L-BFGS-B bounded least squares
+- Objective: sum_sq_residuals; synthetic observations from y=alpha*x
+- Original parameter set immutable; calibrated creates derived version
+- Bound respected; bound-hit reported; insufficient/constant/unidentifiable handled
+- No lux/PPFD/relative_normalized calibration; no validation leakage; dataset role separated
+- Explicit: 'TASK 028 implements controlled parameter-estimation framework. Calibration results do not constitute empirical model validation.'
