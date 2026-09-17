@@ -68,3 +68,8 @@ Validation method:
 ## TASK 026 — Nutrient validation
 - Analytical N: 100 mg * 0.5 = 50 avail; input 20; uptake 25 => final 95; avail 47.5. P: 20 * 0.25 = 5 avail; req 10 => actual 5.
 - No calibration/field validation; fixtures synthetic; no interaction model.
+
+## TASK 027 — Stochastic validation
+- Reproducibility verified (same seed => identical sample).
+- Bounds enforced (uniform/truncated).
+- No biological calibration or ensemble forecasting performed.

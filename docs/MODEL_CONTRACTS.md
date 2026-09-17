@@ -194,3 +194,12 @@ Status: contracts defined; no physics or 3D generation yet.
 - Root reference preserved; NO automatic root creation; invalid -> INVALID_INPUT; missing -> allowed (calculation proceeds) with note.
 - No pH chemistry; no water coupling; no photosynthesis/growth mutation; no nutrient-interaction calculation.
 - Explicit: 'TASK 026 implements simplified independent N/P/K nutrient-pool and root-uptake model. Not full soil-chemistry, mineralization, transport, or plant-nutrition diagnostic model.'
+
+## TASK 027 — Stochastic (infrastructure; bounded; synthetic)
+- Contracts: StochasticDistribution / VariationRequest / VariationResult / RNGStateRef (v1)
+- Supported: uniform, truncated_normal, normal; parameters/seed/bounds explicit
+- RNG: numpy.default_rng(PCG64) with explicit integer seed; same seed => same output; no global state
+- Bounds validated; invalid bounds -> INVALID_INPUT; unsupported -> NOT_IMPLEMENTED
+- Synthetic fixtures (uniform [0.9,1.1], truncated_normal mean=1 sd=0.05); not empirical biological distributions
+- No injection into growth/photosynthesis/nutrient/water/phenology; no calibration/ensemble/Monte Carlo
+- Explicit: 'TASK 027 provides controlled stochastic variation infrastructure. Not empirical distributions of biological variability. Does not inject randomness into biological process models.'
