@@ -1,38 +1,64 @@
-"""Validation contracts — TASK 013 (validation only; no calibration)."""
+"""Validation contracts — TASK 029. Independent dataset; fixed model; metrics; criteria; no calibration."""
 from __future__ import annotations
 from pydantic import BaseModel, Field
+from typing import Optional, Literal, List, Dict, Any
 from datetime import datetime
-from typing import Optional, Literal, List
-from simulation.core.contracts.domain import Measurement, LightField
-from simulation.core.light.field.contracts import LightSample
 
-class ValidationCase(BaseModel):
-    id: str
-    model_ref: str  # LightField reference / timestamp
-    measurement_ref: str  # Measurement id
-    timestamp: datetime
-    spatial_ref: Optional[dict] = None  # {x,y,z} or named reference
-    comparison_method: Literal["exact_spatial","nearest_spatial","structural_spatial"] = "nearest_spatial"
-    temporal_tolerance_sec: float = 300.0  # configurable; 0 = exact
-    spatial_tolerance_m: float = 0.5  # max distance for nearest match
-    result_status: Literal["PASS","FAIL","INCONCLUSIVE"] = "INCONCLUSIVE"
-    metric_notes: Optional[str] = None
+class MetricCriterion(BaseModel):
+    metric_name: Literal["mae","rmse","bias","correlation","count"] = "mae"
+    max_allowed_error: Optional[float] = None
+    min_required_value: Optional[float] = None
+    unit: Optional[str] = None
+    interpretation: Optional[str] = None
     provenance: Optional[str] = None
     is_synthetic_example: bool = False
+    schema_version: Literal["v1"] = "v1"
 
-class ValidationMatch(BaseModel):
-    case_id: str
-    selected_sample: Optional[LightSample] = None  # domain-only; not converted
-    spatial_distance_m: float = 0.0
-    matching_rule: Literal["exact","nearest_within_threshold","nearest_beyond_threshold","unmatched"] = "unmatched"
-    accepted: bool = False
-    reason: Optional[str] = None  # explicit rejection cause
+class ValidationDataset(BaseModel):
+    dataset_id: str
+    role: Literal["calibration","validation","excluded"] = "validation"
+    observation_refs: List[str] = Field(default_factory=list)
+    variable: str
+    unit: str
+    spatial_scope: Optional[str] = None
+    temporal_scope: Optional[str] = None
+    model_reference: Optional[str] = None
+    parameter_set_reference: Optional[str] = None
+    provenance: Optional[str] = None
+    version: Literal["v1"] = "v1"
+    independence_notes: Optional[str] = None
+    inclusion_status: Literal["included","excluded"] = "included"
+    is_synthetic_example: bool = False
+    schema_version: Literal["v1"] = "v1"
+
+class ValidationRequest(BaseModel):
+    validation_id: str
+    model_version_ref: str
+    parameter_set_ref: str
+    validation_dataset_ref: str
+    target_quantity: str
+    target_unit: str
+    matching_rules: Optional[Dict[str, Any]] = None
+    metric_config: List[MetricCriterion] = Field(default_factory=list)
+    uncertainty_weighting: Optional[str] = None
+    provenance: Optional[str] = None
+    is_synthetic_example: bool = False
+    schema_version: Literal["v1"] = "v1"
 
 class ValidationResult(BaseModel):
-    case_id: str
-    status: Literal["PASS","FAIL","INCONCLUSIVE"]
+    validation_id: str
+    model_version_ref: str
+    parameter_set_ref: str
+    dataset_ref: str
     matched_count: int = 0
     unmatched_count: int = 0
-    mean_spatial_distance_m: Optional[float] = None
-    note: Optional[str] = None
-    # No lux-vs-relative RMSE; structural/pattern metrics documented explicitly
+    exclusions: List[str] = Field(default_factory=list)
+    metrics: Dict[str, Any] = Field(default_factory=dict)
+    diagnostics: Dict[str, Any] = Field(default_factory=dict)
+    criteria_met: Dict[str, Any] = Field(default_factory=dict)
+    status: Literal["VALID","INVALID_INPUT","INSUFFICIENT_DATA","LEAKAGE_DETECTED","UNIT_MISMATCH","NOT_COMPUTABLE","INCONCLUSIVE"] = "VALID"
+    provenance: Optional[str] = None
+    timestamp: Optional[datetime] = None
+    notes: Optional[str] = None
+    is_synthetic_example: bool = False
+    schema_version: Literal["v1"] = "v1"

@@ -1,70 +1,26 @@
-"""Synthetic validation fixtures — TASK 013. Labeled is_synthetic_example=True.
-No real measurements; lux preserved; no conversion; no calibration."""
-from datetime import datetime, timezone
-from simulation.core.contracts.domain import Measurement
-from simulation.core.measurements.fixtures import SYNTH_ILLUMINANCE
+"""Synthetic validation fixtures — TASK 029. Independent observations; synthetic predictions; labeled."""
+from simulation.core.validation.contracts import ValidationDataset, MetricCriterion
 
-# A. Exact spatial match (same x,y as LightField sample at grid point)
-SYNTH_MEASURE_EXACT = Measurement(
-    id="m-val-exact-001",
-    timestamp=datetime(2026,6,21,12,0,0,tzinfo=timezone.utc),
-    variable="illuminance",
-    value=8200.0,
-    unit="lux",
-    spatial_ref={"x": 0.0, "y": 0.0, "z": 1.0},
-    observer_source="test_example",
+SYNTH_VAL_DS = ValidationDataset(
+    dataset_id="val_synth_01",
+    role="validation",
+    observation_refs=["obs_v1","obs_v2","obs_v3","obs_v4"],
+    variable="gross_rate",
+    unit="umol_CO2_m2_s",
+    provenance="TASK_029 synthetic; independent of calibration ds",
     is_synthetic_example=True,
-    provenance="synthetic_validation_fixture_TASK_013; not calibrated; lux stays lux",
 )
 
-# B. Near match (within 0.4m of sample at (1,1))
-SYNTH_MEASURE_NEAR = Measurement(
-    id="m-val-near-001",
-    timestamp=datetime(2026,6,21,12,0,0,tzinfo=timezone.utc),
-    variable="illuminance",
-    value=7500.0,
-    unit="lux",
-    spatial_ref={"x": 1.05, "y": 1.02, "z": 1.0},
-    observer_source="test_example",
-    is_synthetic_example=True,
-    provenance="synthetic_validation_fixture_TASK_013",
-)
+# Synthetic independent observations (not derived from calibration)
+SYNTH_OBS_VALUES = [1.0, 2.0, 3.0, 4.0]
+# Synthetic predictions (slightly off: 1,2,3,5 => bias 0.25, MAE 0.25, RMSE 0.5)
+SYNTH_PRED_VALUES = [1.0, 2.0, 3.0, 5.0]
+# Synthetic PASS case (close match)
+SYNTH_PRED_PASS = [1.01, 2.02, 2.99, 4.01]
+# Synthetic FAIL case (large error)
+SYNTH_PRED_FAIL = [10.0, 10.0, 10.0, 10.0]
+# Constant observed => correlation undefined
+SYNTH_OBS_CONSTANT = [2.0, 2.0, 2.0, 2.0]
+SYNTH_PRED_CONST = [1.9, 2.1, 2.0, 2.2]
 
-# C. Too far (should reject) — >0.5m from nearest sample at (2,2)
-SYNTH_MEASURE_FAR = Measurement(
-    id="m-val-far-001",
-    timestamp=datetime(2026,6,21,12,0,0,tzinfo=timezone.utc),
-    variable="illuminance",
-    value=3000.0,
-    unit="lux",
-    spatial_ref={"x": 10.0, "y": 10.0, "z": 1.0},
-    observer_source="test_example",
-    is_synthetic_example=True,
-    provenance="synthetic_validation_fixture_TASK_013; expects distance-threshold rejection",
-)
-
-# D. Timestamp mismatch (different time — should flag/reject if temporal gate active)
-SYNTH_MEASURE_TIME_BAD = Measurement(
-    id="m-val-time-001",
-    timestamp=datetime(2026,6,21,2,0,0,tzinfo=timezone.utc),
-    variable="illuminance",
-    value=200.0,
-    unit="lux",
-    spatial_ref={"x": 0.0, "y": 0.0, "z": 1.0},
-    observer_source="test_example",
-    is_synthetic_example=True,
-    provenance="synthetic_validation_fixture_TASK_013; expects temporal mismatch flag",
-)
-
-# E. Observation (non-numeric) for structural check
-SYNTH_OBS_STRUCT = Measurement(
-    id="m-val-obs-001",
-    timestamp=datetime(2026,6,21,12,0,0,tzinfo=timezone.utc),
-    variable="phenological_stage",
-    value=0,  # not numeric light; observation style
-    unit="category",
-    spatial_ref={"x": 0.0, "y": 0.0},
-    observer_source="test_example",
-    is_synthetic_example=True,
-    provenance="synthetic_validation_fixture_TASK_013; observation-style; not compared numerically",
-)
+SYNTH_CRITERION_MAE = MetricCriterion(metric_name="mae", max_allowed_error=0.5, unit="umol_CO2_m2_s", provenance="TASK_029 synthetic", is_synthetic_example=True)
