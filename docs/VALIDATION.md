@@ -79,3 +79,8 @@ Validation method:
 - Bounded domain respected; convergence/identifiability explicitly reported.
 - Original parameter preserved; calibration creates derived set only.
 - No real garden observations used; synthetic only; no biological validation claimed.
+
+## TASK 030 — Forecast validation
+- Synthetic reference verified independently (x0=10, r=2 => 16 at 3 days; r=1 => 13).
+- Comparison produces factual per-candidate metrics; no universal score.
+- No biological validation claimed; framework only.

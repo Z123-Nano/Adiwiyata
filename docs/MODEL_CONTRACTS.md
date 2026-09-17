@@ -212,3 +212,10 @@ Status: contracts defined; no physics or 3D generation yet.
 - Bound respected; bound-hit reported; insufficient/constant/unidentifiable handled
 - No lux/PPFD/relative_normalized calibration; no validation leakage; dataset role separated
 - Explicit: 'TASK 028 implements controlled parameter-estimation framework. Calibration results do not constitute empirical model validation.'
+
+## TASK 030 — Forecast/Model-comparison (infrastructure; deterministic; synthetic)
+- ForecastRequest/Result, ModelCandidate/Comparison (v1); snapshot/scenario reference; fixed model/parameter
+- Targets explicit; unsupported -> NOT_COMPUTABLE; no fabrication; deterministic output
+- Synthetic reference cases (linear projection); synthetic pass/fail/comparison; metrics factual; no ranking
+- Source isolation (no mutation); calibration/validation lineage preserved; no injection
+- Explicit: 'TASK 030 implements reproducible forecasting/model-comparison infrastructure. Not biological validation.'
