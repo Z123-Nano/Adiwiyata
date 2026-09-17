@@ -164,3 +164,14 @@ Status: contracts defined; no physics or 3D generation yet.
 - No calibration/validation/species-specific claims; synthetic params labeled.
 - No phenology/water/nutrient/stochastic/hormonal.
 - Explicit: 'TASK 023 converts allocated carbon into explicit organ-growth state according to documented generic model. It does not establish species-specific growth realism.'
+
+## TASK 024 — Phenology (state machine; synthetic)
+- Stages: seed/germination/seedling/vegetative/flowering/fruiting/senescence/dormant/completed.
+- Transition graph explicit (default linear + dormant branches); self-transition allowed; invalid -> INVALID_INPUT; original stage preserved.
+- Triggers: manual_observation / explicit_stage_event / accumulated_time / parameter_threshold (supported; no environmental thresholds invented).
+- Age vs sim time: stage_start_age_days explicit optional; not derived from clock automatically; age separate from simulation time.
+- History: PhenologyTransitionEvent per transition; preserved in state.transition_history.
+- Observation != transition: observation records stage without mutation unless transition called.
+- Integration: PhenologyState referenceable by PlantState; identity/architecture/growth unchanged.
+- No automatic organ creation, no growth change, no species timing, no stochastic, no calibration.
+- Explicit: 'TASK 024 implements a deterministic phenology state machine. It does not establish species-specific developmental timing or causal biological mechanisms.'

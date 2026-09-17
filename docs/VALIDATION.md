@@ -54,3 +54,8 @@ Validation method:
 - No biological calibration or empirical comparison performed.
 - Geometry derivation is simplified cylindrical approximation (fixed radius); not architectural.
 - Source architecture isolation verified (test N/I).
+
+## TASK 024 — Phenology validation
+- Analytical: seed→germination valid; seed→flowering invalid; self-transition preserved.
+- No biological validation performed; fixtures synthetic.
+- Source snapshot isolation verified (no mutation of input PhenologyState on transition result only).
