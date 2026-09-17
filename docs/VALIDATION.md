@@ -59,3 +59,8 @@ Validation method:
 - Analytical: seed→germination valid; seed→flowering invalid; self-transition preserved.
 - No biological validation performed; fixtures synthetic.
 - Source snapshot isolation verified (no mutation of input PhenologyState on transition result only).
+
+## TASK 025 — Water validation
+- Analytical: case A 2+5-3=4; case B 4+4-5 overflow 3; case C requested 5/avail 2 => actual 2 unmet 3.
+- No soil-specific calibration or field validation performed.
+- Source snapshot isolation verified.

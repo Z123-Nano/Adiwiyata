@@ -175,3 +175,13 @@ Status: contracts defined; no physics or 3D generation yet.
 - Integration: PhenologyState referenceable by PlantState; identity/architecture/growth unchanged.
 - No automatic organ creation, no growth change, no species timing, no stochastic, no calibration.
 - Explicit: 'TASK 024 implements a deterministic phenology state machine. It does not establish species-specific developmental timing or causal biological mechanisms.'
+
+## TASK 025 — Water/Root (simplified reservoir; liters; synthetic)
+- Units: liters (L); explicit; no volumetric % invented.
+- Storage bounded [0,capacity]; overflow -> drainage; negative inputs rejected.
+- Available = max(0, storage - floor); floor synthetic parameterized.
+- Uptake = min(requested, available, capacity); actual <= requested; unmet recorded.
+- Plant status = simplified normalized (adequate/limited/deficit); NOT real water potential.
+- Root reference preserved; no automatic root creation; NOT_IMPLEMENTED if missing.
+- Conservation verified (1e-9); synthetic fixtures A-C labeled.
+- Explicit: 'TASK 025 implements simplified root-zone water reservoir and root uptake model. Not full soil-hydraulic or plant-hydraulic model.'
