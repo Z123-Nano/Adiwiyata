@@ -142,3 +142,15 @@ Status: contracts defined; no physics or 3D generation yet.
 - Units: μmol CO2 m^-2 s^-1 (rate), umol_CO2_m2 (amount); consistent with TASK 020.
 - Synthetic fixtures; provenance preserved; no inventory/growth/biomass invention.
 - Explicit distinction: net carbon is bookkeeping before allocation/growth; not growth itself.
+
+## TASK 022 — Source-Sink Allocation (allocation only; no growth)
+- Source = carbon-producing process/state; Sink = carbon-requiring process/state.
+- Demand is structural descriptor (synthetic/test), not growth equation.
+- Policy implemented: proportional by eligible demand (`proportional_demand` v1).
+- Conservation: total_allocated + unallocated == source_carbon (within 1e-6).
+- Negative source => carbon_deficit = -available; allocated = 0; no reduction to sinks.
+- Unavailable demand => NOT_COMPUTABLE; negative demand => INVALID_INPUT.
+- Capacity field exists (optional, default None) but unenforced in v1.
+- Unit = `umol_CO2_m2` (same as TASK 021 carbon balance).
+- No organ growth, biomass change, leaf/stem/root elongation, phenology, calibration, validation.
+- Explicit boundary statement: "TASK 022 allocates supplied carbon among supplied sink demands. It does not model growth or change organ biomass/geometry."

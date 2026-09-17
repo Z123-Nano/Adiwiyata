@@ -41,3 +41,10 @@ Validation method:
 - PASS/FAIL/INCONCLUSIVE: PASS = comparison complete; FAIL = forbidden metric / impossible; INCONCLUSIVE = missing/unmatched/temporal out/unit mismatch/insufficient.
 - Synthetic fixtures A-M labeled is_synthetic_example=True; no real measurements; no LightField edits.
 - No calibration, no regression, no parameter fitting, no lux→PPFD.
+
+## TASK 022 validation notes
+- Allocation is deterministic (sorted sink_id order; no set/dict dependence).
+- Synthetic fixtures: full demand (10 -> 10), limiting (5 -> 2.5/1.5/1.0), deficit (-3 -> deficit 3, allocated 0), zero demand, zero carbon.
+- Conservation verified by test H (tolerance 1e-3); floating point described in result.conservation_check.
+- No empirical calibration or independent observation comparison performed (not in scope).
+- Allocation does not modify PlantArchitecture or PlantState (test R).
