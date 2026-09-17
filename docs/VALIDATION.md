@@ -48,3 +48,9 @@ Validation method:
 - Conservation verified by test H (tolerance 1e-3); floating point described in result.conservation_check.
 - No empirical calibration or independent observation comparison performed (not in scope).
 - Allocation does not modify PlantArchitecture or PlantState (test R).
+
+## TASK 023 — Growth validation notes
+- Analytical reference: efficiency 0.5, carbon 10 => biomass 5 g_m2; carbon 4 * 0.25 => 1.
+- No biological calibration or empirical comparison performed.
+- Geometry derivation is simplified cylindrical approximation (fixed radius); not architectural.
+- Source architecture isolation verified (test N/I).

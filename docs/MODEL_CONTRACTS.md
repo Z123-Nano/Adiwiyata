@@ -154,3 +154,13 @@ Status: contracts defined; no physics or 3D generation yet.
 - Unit = `umol_CO2_m2` (same as TASK 021 carbon balance).
 - No organ growth, biomass change, leaf/stem/root elongation, phenology, calibration, validation.
 - Explicit boundary statement: "TASK 022 allocates supplied carbon among supplied sink demands. It does not model growth or change organ biomass/geometry."
+
+## TASK 023 — Organ Growth (mass-first; synthetic)
+- Formulation: biomass = allocated_carbon * efficiency (synthetic 0.5); geometry only when derive_geometry=True + synthetic density (500 g/m3).
+- Unit: carbon umol_CO2_m2 -> biomass g_m2 (explicit, not implicit).
+- Conservation: carbon_used <= allocated; remainder = 1-efficiency portion.
+- Negative => INVALID_INPUT; zero => VALID/0; unsupported => NOT_IMPLEMENTED.
+- State mutation: input unchanged; result carries updated_state_reference.
+- No calibration/validation/species-specific claims; synthetic params labeled.
+- No phenology/water/nutrient/stochastic/hormonal.
+- Explicit: 'TASK 023 converts allocated carbon into explicit organ-growth state according to documented generic model. It does not establish species-specific growth realism.'
