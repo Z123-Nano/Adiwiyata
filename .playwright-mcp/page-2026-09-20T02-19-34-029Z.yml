@@ -1,0 +1,32 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - strong [ref=e5]: Adiwiyata Digital Twin
+    - generic [ref=e6]: "|"
+    - generic [ref=e7]: Garden
+    - generic [ref=e8]: "LightField: —"
+    - generic [ref=e9]: No selection
+  - generic [ref=e10]:
+    - navigation [ref=e11]:
+      - generic [ref=e12]: Workstation
+      - button "Garden" [ref=e13] [cursor=pointer]
+      - button "Plants" [ref=e14] [cursor=pointer]
+      - button "Architecture" [ref=e15] [cursor=pointer]
+      - button "Light" [ref=e16] [cursor=pointer]
+      - button "Measurements" [ref=e17] [cursor=pointer]
+      - button "Simulation" [ref=e18] [cursor=pointer]
+      - button "Snapshots" [ref=e19] [cursor=pointer]
+      - button "Scenarios" [ref=e20] [cursor=pointer]
+      - generic [ref=e21]: Synthetic pilot — TASK 052 workstation rebuild; real data from TASK 051 still pending.
+    - main [ref=e22]:
+      - generic [ref=e23]: TASK 033 — Garden Integration | TASK 031 fixture (explicit demo/benchmark — not production domain) | +X East · +Y North · +Z UpFixture mode (benchmark / demo)
+    - complementary [ref=e27]:
+      - heading "Inspector" [level=3] [ref=e28]
+      - generic [ref=e29]:
+        - generic [ref=e30]: Garden Summary
+        - generic [ref=e31]: "Reference: G0 (+X East / +Y North / +Z Up)Boundary: L-shaped; rack / tier / container hierarchyLightField: relative-normalized (current contract); absolute PPFD via 046VSimulation: clock 3600s; step/run/pause not exposed in UI (backend /clock endpoint available)Observation: synthetic pilot (TASK 051 PARTIAL); real measurements requiredState: architecture unchanged at boundary; carbon reserve + current_net preserved (046Z)"
+        - generic [ref=e32]: "First real observation intake (TASK 051) completed as synthetic pilot only. Data directories (data/observations, data/measurements) remain empty. Real-garden measurement campaign still required: calibrated PPFD, architecture, environment, phenology events, sensor registry, multi-PPFD."
+  - contentinfo [ref=e33]:
+    - generic [ref=e34]: "Simulation: —"
+    - generic [ref=e35]: "Step: 3600s"
+    - generic [ref=e36]: "Clock: —"
+    - generic [ref=e37]: "Status: READY — synthetic viewer (TASK 052 workstation rebuild); no calibration; real data not yet supplied"

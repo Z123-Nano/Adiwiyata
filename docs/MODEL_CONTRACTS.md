@@ -219,3 +219,4 @@ Status: contracts defined; no physics or 3D generation yet.
 - Synthetic reference cases (linear projection); synthetic pass/fail/comparison; metrics factual; no ranking
 - Source isolation (no mutation); calibration/validation lineage preserved; no injection
 - Explicit: 'TASK 030 implements reproducible forecasting/model-comparison infrastructure. Not biological validation.'
+API DTO != domain contract; route != scientific model; FastAPI adapter only — documented

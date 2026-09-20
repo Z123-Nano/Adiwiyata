@@ -1,50 +1,37 @@
-"""SimulationClock — TASK 007. Timezone-aware, deterministic, serializable."""
-from datetime import datetime, timezone, timedelta
-from typing import Optional
+"""TASK 007 — SimulationClock / scheduler domain contract (instantiated)."""
+from __future__ import annotations
+from pydantic import BaseModel, Field
+from datetime import datetime, timezone
+from typing import Optional, Literal
 
-class SimulationClock:
-    def __init__(self, start: Optional[datetime] = None, end: Optional[datetime] = None):
-        self.start = start or datetime.now(timezone.utc)
-        self.current = self.start
-        self.end = end
-        self.paused = False
-        if self.end is not None and self.end < self.start:
-            raise ValueError("end time earlier than start time")
-        if self.start.tzinfo is None:
-            raise ValueError("start must be timezone-aware")
+class SchedulerState(BaseModel):
+    status: Literal["READY","RUNNING","PAUSED","UNAVAILABLE"] = "READY"
+    timestep_mode: Literal["fixed","adaptive","manual"] = "fixed"
+    next_scheduled_time: Optional[str] = None
+    provenance: Optional[str] = None
 
-    def advance(self, delta: timedelta):
-        if delta.total_seconds() <= 0:
-            raise ValueError("delta must be positive")
-        if self.paused:
-            raise ValueError("clock is paused")
-        self.current = self.current + delta
-        if self.end is not None and self.current > self.end:
-            # allow exceeding slightly; stop handles
-            pass
+class SimulationClock(BaseModel):
+    simulation_time: datetime = Field(default_factory=lambda: datetime(2026, 9, 17, 12, 0, 0, tzinfo=timezone.utc), description="Domain simulation time — deterministic, not browser time")
+    world_time: datetime = Field(default_factory=lambda: datetime(2026, 9, 17, 12, 0, 0, tzinfo=timezone.utc), description="Observation/world reference time")
+    observation_time: datetime = Field(default_factory=lambda: datetime(2026, 9, 17, 10, 0, 0, tzinfo=timezone.utc), description="Last observation timestamp")
+    timestep: float = 3600.0  # 1 hour fixed step
+    timestep_mode: Literal["fixed","adaptive","manual"] = "fixed"
+    timezone: str = "UTC"
+    scheduler: SchedulerState = Field(default_factory=lambda: SchedulerState(status="READY", timestep_mode="fixed", provenance="TASK_007 scheduler domain"))
+    clock_status: Literal["READY","ERROR","UNAVAILABLE"] = "READY"
+    provenance: str = "TASK_007 SimulationClock v1; deterministic; source of truth for temporal boundary"
+    version: str = "v1"
 
-    def set_time(self, t: datetime):
-        if t.tzinfo is None:
-            raise ValueError("time must be timezone-aware")
-        self.current = t
+    class Config:
+        validate_assignment = True
 
-    def reset(self):
-        self.current = self.start
-        self.paused = False
+# Module-level instance (deterministic; no hidden global mutation)
+_simulation_clock = SimulationClock()
 
-    def pause(self):
-        self.paused = True
+def get_simulation_clock() -> SimulationClock:
+    return _simulation_clock
 
-    def resume(self):
-        self.paused = False
-
-    def elapsed(self) -> timedelta:
-        return self.current - self.start
-
-    def state(self) -> dict:
-        return {
-            "start": self.start.isoformat() if self.start else None,
-            "current": self.current.isoformat(),
-            "end": self.end.isoformat() if self.end else None,
-            "paused": self.paused,
-        }
+def reset_clock() -> SimulationClock:
+    global _simulation_clock
+    _simulation_clock = SimulationClock()
+    return _simulation_clock

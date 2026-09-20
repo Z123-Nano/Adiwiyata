@@ -72,5 +72,6 @@ class ModelComparisonResult(BaseModel):
     comparability_status: Literal["COMPARABLE","INCOMPATIBLE","PARTIAL"] = "COMPARABLE"
     provenance: Optional[str] = None
     status: Literal["VALID","INVALID_INPUT","INCONCLUSIVE"] = "VALID"
+    notes: Optional[str] = None
     is_synthetic_example: bool = False
     schema_version: Literal["v1"] = "v1"

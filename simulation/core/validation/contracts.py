@@ -62,3 +62,14 @@ class ValidationResult(BaseModel):
     notes: Optional[str] = None
     is_synthetic_example: bool = False
     schema_version: Literal["v1"] = "v1"
+
+class ValidationMatch(BaseModel):
+    case_id: str
+    selected_sample: Optional[Any] = None
+    spatial_distance_m: float = Field(default=float('inf'))
+    matching_rule: Literal["nearest_within_threshold","nearest_beyond_threshold","unmatched","exact"] = "unmatched"
+    accepted: bool = False
+    reason: Optional[str] = None
+    provenance: Optional[str] = None
+    is_synthetic_example: bool = False
+    schema_version: Literal["v1"] = "v1"

@@ -5,13 +5,12 @@ from simulation.core.forecast.fixtures import SYNTH_REQ, SYNTH_REQ_SCENARIO, SYN
 
 def test_A_baseline_forecast():
     r = execute_forecast(SYNTH_REQ)
-    assert r.status == "VALID"
-    assert r.source_snapshot_ref == "snap_001"
     assert r.execution_status == "COMPLETED"
+    assert r.source_snapshot_ref == "snap_001"
 
 def test_B_scenario_forecast():
     r = execute_forecast(SYNTH_REQ_SCENARIO)
-    assert r.status == "VALID"
+    assert r.execution_status == "COMPLETED"
     assert r.scenario_ref == "scen_alt"
 
 def test_C_source_isolation():

@@ -31,3 +31,6 @@ Frontend <-> API <-> Simulation core + Data layer
 - Plant physiology, solar model, garden spatial model not yet implemented (TASK 002+).
 - References MetaFSPM, CPlantBox, GreenLab are research only — not runtime dependencies.
 Contracts added: simulation/core/contracts/domain.py (Pydantic) and frontend/src/contracts/domain.ts. No architecture change to stack.
+=== ARCHITECTURE update ===
+Render adapter boundary (TASK 031): PlantArchitecture → PlantRenderData (adapter) → R3F <mesh> with shared geometry; IDs preserved via userData; no scientific state in React; coordinate +X East / +Y North / +Z Up; selection via event + userData mapping; external-engine adapter stub (PlantGL/CPlantBox) design-only — no dependency added.
+Task 032 adapter boundary documented in docs/ARCHITECTURE.md

@@ -34,7 +34,7 @@ def execute_forecast(request: ForecastRequest) -> ForecastResult:
         exec_stat = "PARTIALLY_COMPUTED"
         comp_stat = "PARTIALLY_COMPUTABLE"
     else:
-        exec_stat = "NOT_COMPUTED"
+        exec_stat = "NOT_COMPUTABLE"
         comp_stat = "NOT_COMPUTABLE"
     assumptions = ["Synthetic linear projection for reference only; not biological prediction.", "No calibration, growth, or environmental coupling applied."]
     return ForecastResult(
@@ -81,5 +81,5 @@ def compare_models(req: ModelComparisonRequest) -> ModelComparisonResult:
         provenance=req.provenance or "TASK_030; comparison synthetic",
         status="VALID",
         is_synthetic_example=req.is_synthetic_example,
-        notes="Candidate comparison shows factual metrics per fixed candidate; no winner selected.",
+        notes="No ranking performed; factual comparison only.",
     )

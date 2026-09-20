@@ -1,0 +1,123 @@
+"""TASK 046N — Domain orchestration: deterministic FSPM timestep.
+Pure coordination only; no new science; no engine replacement.
+Light stage uses 046M; physiology unavailable (LightField ≠ PPFD);
+remaining stages report NOT_COMPUTABLE honestly; architecture unchanged.
+"""
+from __future__ import annotations
+from typing import Optional
+from simulation.core.contracts.domain import PlantArchitecture
+from simulation.core.solar.model import SolarPosition
+from simulation.core.orchestration.contracts import FSPMTimestepResult
+from simulation.core.light.architecture_recompute import compute_lightfield_for_architecture
+from simulation.core.light.field.contracts import LightField
+
+def run_fspm_timestep(
+    architecture: PlantArchitecture,
+    solar: SolarPosition,
+    grid_bounds: tuple[float, float, float, float] = (0.0, 10.0, 0.0, 10.0),
+    grid_res: tuple[int, int] = (10, 10),
+    z_height: float = 0.0,
+    step_id: str = "step_046N_1",
+    timestep: float = 3600.0,
+    simulation_time_ref: Optional[str] = None,
+    mapping_config=None,
+) -> FSPMTimestepResult:
+    """Pure domain orchestrator — coordinates existing modules; does not invent conversions."""
+    # Step 2 / 3 — input validation and immutability (references only; no mutation)
+    arch_before_id = getattr(architecture, "architecture_id", None) if architecture else None
+    arch_before_json = architecture.model_dump_json() if architecture else None
+
+    # Step 4 — LIGHT STAGE (046M re-used)
+    light_status = "AVAILABLE"
+    light_ref = None
+    light_result = None
+    try:
+        if not architecture or not getattr(architecture, "architecture_id", None):
+            light_status = "INVALID_INPUT"
+            light_result = None
+        else:
+            light_result = compute_lightfield_for_architecture(
+                architecture, solar, grid_bounds, grid_res, z_height, mapping_config
+            )
+            light_ref = f"light_{arch_before_id or 'none'}_{step_id}"
+    except Exception:
+        light_status = "NOT_COMPUTABLE"
+        light_result = None
+
+    # Critical scientific boundary — LightField is relative_normalized; NOT automatically PPFDSource
+    # No conversion performed; downstream stages depend on valid PPFD source which is absent.
+    ppfd_available = False  # explicit: no PPFDSource contract feeds this step
+
+    # Step 5 — PHYSIOLOGY STAGE (046D/046E) — blocked by missing PPFD
+    physio_status = "NOT_COMPUTABLE" if not ppfd_available else "AVAILABLE"
+
+    # Step 6 — CARBON STAGE — blocked upstream
+    carbon_status = "NOT_COMPUTABLE"
+
+    # Step 7 — CARBON POOL — blocked upstream
+    pool_status = "NOT_COMPUTABLE"
+
+    # Step 8 — SINK DEMAND (046H-E) — blocked upstream
+    demand_status = "NOT_COMPUTABLE"
+
+    # Step 9 — ALLOCATION (046I) — blocked upstream
+    alloc_status = "NOT_COMPUTABLE"
+
+    # Step 10 — GROWTH (046J) — blocked upstream
+    growth_status = "NOT_COMPUTABLE"
+
+    # Step 11 — ARCHITECTURE DELTA (046K) — no valid growth results
+    delta_refs = []
+
+    # Step 12 — ATOMIC ARCHITECTURE APPLICATION (046L) — none to apply; keep unchanged
+    arch_after_id = arch_before_id
+    arch_status = "UNCHANGED"
+
+    # Verify immutability of source architecture
+    arch_after_json = architecture.model_dump_json() if architecture else None
+    immutable = (arch_before_json == arch_after_json)
+
+    # Step 13 — RESULT
+    status = "PARTIAL" if (light_status == "AVAILABLE" and physio_status == "NOT_COMPUTABLE") else "NOT_COMPUTABLE"
+    if not architecture or light_status == "INVALID_INPUT":
+        status = "INVALID_INPUT"
+
+    provenance = (
+        f"TASK_046N; step={step_id}; arch_before={arch_before_id}; arch_after={arch_after_id}; "
+        f"light={light_status}; physio={physio_status}; carbon={carbon_status}; demand={demand_status}; "
+        f"alloc={alloc_status}; growth={growth_status}; arch_app={arch_status}; "
+        f"timestep={timestep}; sim_time_ref={simulation_time_ref or 'none'}; "
+        f"PPFDSource=NOT_AVAILABLE; LightField_!=_PPFD; orientation_aware=false; "
+        f"coarse_approximation; immutable={immutable}; partial_execution_honest."
+    )
+
+    return FSPMTimestepResult(
+        step_id=step_id,
+        source_state_id=arch_before_id,
+        architecture_before_id=arch_before_id,
+        architecture_after_id=arch_after_id,
+        simulation_time_before=simulation_time_ref,
+        simulation_time_after=simulation_time_ref,
+        timestep=timestep,
+        status=status,
+        lightfield_status=light_status,
+        physiology_status=physio_status,
+        carbon_status=carbon_status,
+        demand_status=demand_status,
+        allocation_status=alloc_status,
+        growth_status=growth_status,
+        architecture_status=arch_status,
+        lightfield_result_ref=light_ref,
+        carbon_result_ref=None,
+        demand_result_refs=[],
+        allocation_result_ref=None,
+        growth_result_refs=[],
+        architecture_delta_refs=delta_refs,
+        provenance=provenance,
+        orientation_aware=False,
+        notes=("Partial timestep: LightField computed via 046M; PPFDSource unavailable; "
+               "downstream physiology/carbon/demand/allocation/growth report NOT_COMPUTABLE honestly; "
+               "architecture unchanged at step boundary; orientation-agnostic coarse approximation; "
+               "no LightField→PPFD conversion; no engine integration."),
+        is_synthetic_example=True,
+    )
